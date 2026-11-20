@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Mars × Azure 3D</title>
+  <meta name="description" content="An interactive 3D walkthrough of Mars' business, its CPG data streams (Sell-In, Distributor, EPOS, E-Com, Sell-Out, SRM, Gross-to-Net) and how Azure data engineering solves them, including the AOH ➜ DNA migration.">
+  <meta name="theme-color" content="#050812">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><circle cx='32' cy='32' r='28' fill='%230b2a55'/><circle cx='32' cy='32' r='28' fill='none' stroke='%234cc2ff' stroke-width='4'/><text x='32' y='42' font-size='28' text-anchor='middle' fill='white' font-family='Arial' font-weight='700'>M</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+<body>
+  <div id="app" aria-label="3D scene"></div>
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo" aria-hidden="true">M</span>
+      <div><b>Mars × Azure</b><small>3D data walkthrough</small></div>
+    </div>
+    <nav class="tools" aria-label="Tools">
+      <button id="menuBtn" aria-expanded="false" title="Chapters (M)">☰ <span class="hide-sm">Chapters</span></button>
+      <button id="autoBtn" title="Auto-play (A)">▶ <span class="hide-sm">Auto</span></button>
+      <button id="ivBtn" aria-pressed="false" title="Interview mode (P)">🎤 <span class="hide-sm">Interview</span></button>
+      <button id="fsBtn" title="Fullscreen (F)" aria-label="Fullscreen">⛶</button>
+    </nav>
+  </header>
+
+  <div id="menu" class="menu" hidden>
+    <div class="menu-head"><b>Chapters</b><button id="menuClose" aria-label="Close">×</button></div>
+    <ul id="menuList"></ul>
+    <p class="keys">← → navigate · Space fix · P interview · F fullscreen · 1–9 jump · 0 explore</p>
+    <p class="disclaimer">Independent learning aid. Not affiliated with or endorsed by Mars, Incorporated. The Azure architecture is a reference pattern based on public information.</p>
+  </div>
+
+  <div id="info" class="info" hidden role="dialog" aria-live="polite">
+    <button id="infoClose" class="x" aria-label="Close">×</button>
+    <h3 id="infoTitle"></h3>
+    <p id="infoText"></p>
+  </div>
+
+  <aside id="interview" class="interview" hidden aria-label="Interview notes">
+    <header><span>🎤 Interview mode</span><button id="ivClose" aria-label="Close">×</button></header>
+    <div id="ivBody"></div>
+  </aside>
+
+  <section class="dock">
+    <div class="card" id="card">
+      <div class="kicker"><span id="chNum">01 / 17</span> · <span id="chSection">The business</span></div>
+      <h1 id="chTitle">Meet Mars</h1>
+      <p id="chCaption"></p>
+      <div id="streamCard" class="stream" hidden>
+        <div class="row bad"><span>Problem</span><p id="scProblem"></p></div>
+        <div class="row good"><span>With Azure</span><p id="scFix"></p></div>
+        <div class="row kpi"><span>KPI</span><p id="scKpi"></p></div>
+      </div>
+      <p id="chNote" class="note" hidden></p>
+      <div class="actions">
+        <button id="prevBtn" aria-label="Previous chapter">←</button>
+        <button id="fixBtn" class="fix" hidden>⚡ Fix with Azure</button>
+        <button id="nextBtn" class="primary">Next →</button>
+      </div>
+    </div>
+    <div class="dots" id="dots" aria-label="Chapters"></div>
+  </section>
+
+  <div id="intro" class="intro">
+    <div class="intro-box">
+      <p class="eyebrow">A 3D walkthrough for anyone new to the Mars account</p>
+      <h2>Mars <span>×</span> Azure</h2>
+      <p class="lead">How a $65B+ family business turns pet food, snacks and shopper data into decisions, and how Azure data engineering makes it work.</p>
+      <ol class="path">
+        <li><i>🌍</i>The business</li>
+        <li><i>🧩</i>Data streams</li>
+        <li><i>☁️</i>Azure platform</li>
+        <li><i>🔁</i>AOH ➜ DNA</li>
+      </ol>
+      <div class="intro-actions">
+        <button id="startBtn" class="primary big">Start the tour →</button>
+        <button id="startIvBtn" class="ghost big">🎤 Start in interview mode</button>
+      </div>
+      <p class="hint">Drag to rotate · scroll or pinch to zoom · tap anything glowing</p>
+      <p id="loadMsg" class="load">Loading 3D…</p>
+    </div>
+  </div>
+
+  <noscript><div class="nojs">This walkthrough needs JavaScript and WebGL.</div></noscript>
+  <script type="module" src="js/main.js"></script>
+  <script>
+    setTimeout(function () {
+      if (!window.__marsReady) {
+        var m = document.getElementById('loadMsg');
+        if (m) { m.textContent = 'The 3D engine could not load. Check your connection (cdn.jsdelivr.net) and that WebGL is enabled, then refresh.'; m.classList.add('err'); }
+      }
+    }, 12000);
+  </script>
+</body>
+</html>
